@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.properties.MailProperties;
 import com.example.properties.UserProperties;
+import com.example.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/properties")
 @Api(description = "properties config files")
+@ResponseResult
 public class PropertiesApi {
     @Autowired
     private MailProperties mailProperties;

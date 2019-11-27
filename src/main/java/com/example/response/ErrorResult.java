@@ -1,14 +1,23 @@
-package com.example;
+package com.example.response;
 
-public class ErrorMessage {
+/**
+ * 异常结果
+ */
+public class ErrorResult {
     private String code;
     private String msg;
-    private Integer hasException;
+    private Boolean hasException;
 
-    public ErrorMessage(String code, String msg, Integer hasException) {
+    public ErrorResult(String code, String msg, Boolean hasException) {
         this.code = code;
         this.msg = msg;
         this.hasException = hasException;
+    }
+
+    public ErrorResult(IErrorCode errorCode){
+        this.code=errorCode.getCode();
+        this.msg=errorCode.getMessage();
+        this.hasException = true;
     }
 
     public String getCode() {
@@ -27,11 +36,11 @@ public class ErrorMessage {
         this.msg = msg;
     }
 
-    public Integer getHasException() {
+    public Boolean getHasException() {
         return hasException;
     }
 
-    public void setHasException(Integer hasException) {
+    public void setHasException(Boolean hasException) {
         this.hasException = hasException;
     }
 }

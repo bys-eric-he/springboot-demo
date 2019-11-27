@@ -5,6 +5,7 @@ import com.example.annotation.Permission;
 import com.example.dto.UserDto;
 import com.example.dto.UserIDCardDto;
 import com.example.entity.*;
+import com.example.response.ResponseResult;
 import com.example.service.AddressService;
 import com.example.service.ProductService;
 import com.example.service.UserService;
@@ -25,6 +26,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/user")
 @Api(description = "用户操作")
+@ResponseResult
 public class UserApi {
     Logger logger = LoggerFactory.getLogger(UserApi.class);
 

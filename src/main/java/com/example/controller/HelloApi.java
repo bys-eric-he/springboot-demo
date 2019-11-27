@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.enums.EnumException;
 import com.example.exception.BusinessException;
 import com.example.entity.User;
+import com.example.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/hello")
 @Api(description = "Hello Api")
+@ResponseResult
 public class HelloApi {
     Logger logger = LoggerFactory.getLogger(HelloApi.class);
 

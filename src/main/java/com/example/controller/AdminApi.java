@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.annotation.Permission;
 import com.example.entity.Admin;
 import com.example.entity.QAdmin;
+import com.example.response.ResponseResult;
 import com.example.service.AdminService;
 import com.querydsl.core.types.Predicate;
 import io.swagger.annotations.Api;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin")
 @Api(description = "管理员操作")
+@ResponseResult
 public class AdminApi {
 
     Logger logger = LoggerFactory.getLogger(AdminApi.class);

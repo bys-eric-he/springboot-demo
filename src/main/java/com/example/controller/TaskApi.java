@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.dto.TaskDto;
+import com.example.response.ResponseResult;
 import com.example.service.TaskService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/task")
 @Api(description = "task 定时调度任务")
+@ResponseResult
 public class TaskApi {
 
     @Autowired

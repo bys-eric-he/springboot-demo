@@ -66,11 +66,11 @@ public class MvcConfig extends WebMvcConfigurationSupport {
                 .allowCredentials(true);
     }
 
-    /**
-     * @Description 全局fastJson替换
+    /*
+     * @Description 全局fastJson替换, 这里替换后在ResponseBodyAdvice接中beforeBodyWrite方法捕获到的body值将会是Json对象。
      * @Param [converters]
      * @return void
-     */
+     *
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         super.configureMessageConverters(converters);
@@ -91,5 +91,5 @@ public class MvcConfig extends WebMvcConfigurationSupport {
         fastConverter.setSupportedMediaTypes(fastMediaTypes);
         fastConverter.setFastJsonConfig(fastJsonConfig);
         converters.add(fastConverter);
-    }
+    }*/
 }

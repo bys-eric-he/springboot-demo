@@ -1,6 +1,8 @@
 package com.example.filter;
 
 import com.example.annotation.Permission;
+import com.example.response.ConstantInterface;
+import com.example.response.ResponseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
@@ -9,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
 
 /**
  * 拦截器
@@ -41,7 +44,19 @@ public class AuthFunctionInterceptor implements HandlerInterceptor {
         logger.info(">>>AuthFunctionInterceptor>>>>>>>在请求处理之前进行调用（Controller方法调用之前）");
 
         if (handler instanceof HandlerMethod) {
-            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            final HandlerMethod handlerMethod = (HandlerMethod) handler;
+            final Class<?> clazz = handlerMethod.getBeanType();
+            final Method method = handlerMethod.getMethod();
+            //判断是否在API类对象上加了@ResponseResult注解
+            if (clazz.isAnnotationPresent(ResponseResult.class)) {
+                //设置标识到request对象，表示该请求返回结果值需要统一处理, 在ResponseBodyAdvice接中对该标识进行判断.
+                request.setAttribute(ConstantInterface.RESPONSE_RESULT_NN, clazz.getAnnotation(ResponseResult.class));
+                logger.info("Class [{}] Url [{}] must return RESPONSE_RESULT_NN Data Format before response..", clazz.getName(), request.getRequestURI());
+            } else if (method.isAnnotationPresent(ResponseResult.class)) {
+                request.setAttribute(ConstantInterface.RESPONSE_RESULT_NN, method.getAnnotation(ResponseResult.class));
+                logger.info("Method [{}] Url [{}] must return RESPONSE_RESULT_NN Data Format before response..", method.getName(), request.getRequestURI());
+            }
+
             Permission permission = handlerMethod.getMethod().getAnnotation(Permission.class);
             if (permission != null) {
                 boolean isLoginRequired = permission.loginReqired();
