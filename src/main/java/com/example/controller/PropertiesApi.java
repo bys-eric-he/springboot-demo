@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.properties.AppProperties;
 import com.example.properties.MailProperties;
 import com.example.properties.UserProperties;
 import com.example.response.ResponseResult;
@@ -21,6 +22,9 @@ public class PropertiesApi {
     @Autowired
     private UserProperties userProperties;
 
+    @Autowired
+    private AppProperties appProperties;
+
     @RequestMapping(value = "/mail", method = RequestMethod.GET)
     @ApiOperation(value = "get mail setting")
     public MailProperties getMailSetting() {
@@ -31,5 +35,11 @@ public class PropertiesApi {
     @ApiOperation(value = "get user setting")
     public UserProperties getUserProperties() {
         return userProperties;
+    }
+
+    @RequestMapping(value = "/app", method = RequestMethod.GET)
+    @ApiOperation(value = "get app setting")
+    public AppProperties getAppProperties(){
+        return appProperties;
     }
 }
