@@ -3,6 +3,7 @@ package com.example;
 import com.example.annotation.EnableStorage;
 import com.example.bean.Car;
 import com.example.bean.House;
+import com.example.bean.SimpleObject;
 import com.example.config.ParentImportConfigure;
 import com.example.security.UserSecurityService;
 import org.slf4j.Logger;
@@ -57,6 +58,8 @@ public class SpringBootDemoApplication extends WebSecurityConfigurerAdapter {
         logger.info("---->车牌号:" + car.getNumber());
         House house = (House) configApplicationContext.getBean("house");
         logger.info("---->房子面积:" + house.getArea());
+        SimpleObject simpleObject = (SimpleObject) configApplicationContext.getBean("simpleObject");
+        logger.info("---->对象注入数据结果：" + simpleObject.toString());
 
     }
 
