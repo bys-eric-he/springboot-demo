@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 创建一个对象user 对象名称就是user 类名用class内容表示 要加上包名 -->
+    <!-- scope设置成prototype表示每次调用都会生成一个新的对象 可以打印hashcode查看 -->
+    <bean name="user" class="com.example.bean.User" scope="prototype"
+          init-method="init" destroy-method="destroy">
+        <!-- 构造函数参数的配置 -->
+        <constructor-arg name="name" value="张三"></constructor-arg>
+        <!-- 基本类型用value 引用类型用ref表示 -->
+        <constructor-arg name="mobilePhone" ref="phone1"></constructor-arg>
+        <constructor-arg name="mobilePhoneList">
+            <list>
+                <!-- 可以在list中直接创建一个对象，但是外部无法使用 -->
+                <bean id="phone2" class="com.example.bean.MobilePhone">
+                    <property name="name" value="华为 Mate 10"></property>
+                    <property name="price" value="12000.00"></property>
+                </bean>
+            </list>
+        </constructor-arg>
+        <property name="age" value="18"></property>
+
+    </bean>
+    <bean name="user2" class="com.example.bean.User" init-method="init"
+          destroy-method="destroy">
+        <!-- 通过属性的set方法给对象赋值 -->
+        <property name="age" value="28"></property>
+        <property name="name" value="王老五"></property>
+        <property name="mobilePhoneSet">
+            <set>
+                <ref bean="phone1" />
+                <ref bean="phone3" />
+            </set>
+        </property>
+        <!-- 给map类型的实例赋值 -->
+        <property name="mobilePhoneMap">
+            <map>
+                <entry key="1">
+                    <ref bean="phone1"></ref>
+                </entry>
+                <entry key="2">
+                    <ref bean="phone1"></ref>
+                </entry>
+
+            </map>
+        </property>
+    </bean>
+
+    <bean id="phone1" class="com.example.bean.MobilePhone">
+        <property name="name" value="Iphone XS"></property>
+        <property name="price" value="15000.00"></property>
+    </bean>
+    <bean id="phone3" class="com.example.bean.MobilePhone">
+        <property name="name" value="iPhone 11 Pro"></property>
+        <property name="price" value="17000.00"></property>
+    </bean>
+</beans>

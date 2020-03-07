@@ -4,6 +4,7 @@ import com.example.annotation.EnableStorage;
 import com.example.bean.Car;
 import com.example.bean.House;
 import com.example.bean.SimpleObject;
+import com.example.bean.User;
 import com.example.config.ParentImportConfigure;
 import com.example.security.UserSecurityService;
 import org.slf4j.Logger;
@@ -12,9 +13,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -52,7 +55,22 @@ public class SpringBootDemoApplication extends WebSecurityConfigurerAdapter {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(SpringBootDemoApplication.class, args);
 
+        /*
+         * 使用AnnotationConfigApplicationContext可以实现基于Java的配置类加载Spring的应用上下文。
+         * 避免使用application.xml进行配置。相比XML配置，更加便捷。
+         */
         AnnotationConfigApplicationContext configApplicationContext = new AnnotationConfigApplicationContext(ParentImportConfigure.class);
+
+        /*
+         * ApplicationContext容器 使用 ClassPathXmlApplicationContext 类来加载外部 XML 上下文文件加载beans.xml
+         */
+        ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+
+        //通过容器获取配置的javabean
+        User user=(User)context.getBean("user");
+        System.out.println(user);
+        User user2=(User)context.getBean("user2");
+        System.out.println(user2);
 
         Car car = (Car) configApplicationContext.getBean("car");
         logger.info("---->车牌号:" + car.getNumber());
