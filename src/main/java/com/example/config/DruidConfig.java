@@ -26,7 +26,7 @@ public class DruidConfig {
      * 配置读取spring数据源,扫描配置文件中前缀为spring.datasource.druid的配置信息,将数据源注册到配置容器中
      */
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.druid")
+    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource druidDataSource() {
         return new DruidDataSource();
     }
