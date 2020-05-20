@@ -5,19 +5,22 @@ import com.example.entity.*;
 import com.example.mapping.*;
 import com.example.repository.UserRepository;
 import com.example.service.UserService;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -82,8 +85,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void updateUser(UserDto user) {
-        User userEntity = userRepository.findOne(user.getId());
-        if (userEntity != null) {
+        QUser qUser = QUser.user;
+        //查询条件
+        Predicate predicate = qUser.id.longValue().eq(user.getId());
+        Optional<User> userOperation = userRepository.findOne(predicate);
+        if (userOperation.isPresent()) {
+            User userEntity = userOperation.get();
             userEntity.update(UserMapping.toEntity(user));
 
             if (user.getAddressDtos() != null) {
@@ -126,32 +133,30 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteUser(Long id) throws Exception {
-        User user = userRepository.findOne(id);
+        User user = userRepository.getOne(id);
         userRepository.delete(user);
     }
 
     @Override
     public String findBySpecAndPaginate(String userName) {
-        Page<User> page = userRepository.findAll(new Specification<User>() {
-            @Override
-            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                root = query.from(User.class);
-                Path<String> nameExp = root.get("username");
-                return cb.equal(nameExp, userName);
-            }
-
-        }, new PageRequest(0, 5, new Sort(Sort.Direction.DESC, new String[]{"createdDate"})));
+        QUser qUser = QUser.user;
+        //条件
+        Predicate predicate = qUser.username.like(userName);
+        //分页
+        PageRequest pageRequest = new PageRequest(0, 10);
+        //调用查询
+        Page<User> result = userRepository.findAll(predicate, pageRequest);
 
         StringBuilder sbResult = new StringBuilder(String.format(" 以下是姓名包含{%s}人员信息 : ", userName)).append("\n");
         sbResult.append("| 序号 | username | content | address | email | idCard |").append("\n");
         int sortIndex = 1;
-        for (User u : page.getContent()) {
+        for (User u : result.getContent()) {
             sbResult.append(" | ").append(sortIndex);
             sbResult.append(" | ").append(u.getUsername());
             sbResult.append(" | ").append(u.getContent());
-            sbResult.append(" | ").append(u.getAddresses());
-            sbResult.append(" | ").append(u.getEmailAddresses());
-            sbResult.append(" | ").append(u.getIdCard());
+            sbResult.append(" | ").append(u.getAddresses().toString());
+            sbResult.append(" | ").append(u.getEmailAddresses().toString());
+            sbResult.append(" | ").append(u.getIdCard().toString());
             sbResult.append(" | \n");
             sortIndex++;
         }

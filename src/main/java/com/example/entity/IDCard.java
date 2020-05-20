@@ -46,4 +46,9 @@ public class IDCard extends BaseModel {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "{Card Number:" + this.getCardNumber() + ",Card Address:" + this.getCardAddress() + "}";
+    }
 }

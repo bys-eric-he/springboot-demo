@@ -3,7 +3,7 @@ package com.example.repository;
 import com.example.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface UserRepository extends CrudRepository<User, Long>,
         JpaRepository<User, Long>,
-        QueryDslPredicateExecutor,
-        JpaSpecificationExecutor {
+        QuerydslPredicateExecutor<User>,
+        JpaSpecificationExecutor<User> {
 
 }

@@ -63,6 +63,11 @@ public class Address extends BaseModel {
         return flag * idNum;
     }
 
+    @Override
+    public String toString() {
+        return "{City:" + this.getCity() + ",Country:" + this.getCountry() + ",Street:" + this.getStreet() + "}";
+    }
+
     public String getStreet() {
         return street;
     }

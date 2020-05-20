@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Service("productService")
@@ -22,18 +23,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Set<Product> insertProduct(Set<Product> products) {
-        productRespository.save(products);
+        productRespository.saveAll(products);
         return products;
     }
 
     @Override
     public Product selectProduct(Long id) {
-        return productRespository.findOne(id);
+        Optional<Product> productOptional = productRespository.findById(id);
+        return productOptional.orElse(null);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteProduct(Long id) throws Exception {
-        productRespository.delete(id);
+        productRespository.deleteById(id);
     }
 }

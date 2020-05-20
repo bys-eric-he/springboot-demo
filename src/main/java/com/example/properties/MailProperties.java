@@ -2,6 +2,7 @@ package com.example.properties;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
@@ -11,8 +12,8 @@ import javax.validation.constraints.NotNull;
  * prefix 用来选择哪个属性的prefix名字来绑定
  */
 @Component
-@ConfigurationProperties(locations = "classpath:/properties/mail.properties",
-        ignoreUnknownFields = false,
+@PropertySource("classpath:/properties/mail.properties")
+@ConfigurationProperties(ignoreUnknownFields = false,
         prefix = "mail")
 public class MailProperties {
     public static class Smtp {

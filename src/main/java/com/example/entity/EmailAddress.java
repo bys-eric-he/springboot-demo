@@ -44,6 +44,11 @@ public class EmailAddress extends BaseModel {
                 : address.equals(((EmailAddress) obj).address);
     }
 
+    @Override
+    public String toString() {
+        return "{E-Mail Address:" + this.getAddress() + "}";
+    }
+
     /**
      * 使用Set存储Object对象，重写equals和hashCode方法
      * 要使用Set存储Object的对象，执行add方法的时候，会先判断equals方法是否与已有的值相等，

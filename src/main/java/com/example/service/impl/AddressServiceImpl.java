@@ -6,6 +6,7 @@ import com.example.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Service("addressService")
@@ -21,17 +22,18 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Set<Address> insertAddress(Set<Address> addresses) {
-        addressRepository.save(addresses);
+        addressRepository.saveAll(addresses);
         return addresses;
     }
 
     @Override
     public Address selectAddress(Long id) {
-        return addressRepository.findOne(id);
+        Optional<Address> addressOptional = addressRepository.findById(id);
+        return addressOptional.orElse(null);
     }
 
     @Override
     public void deleteAddress(Long id) {
-        addressRepository.delete(id);
+        addressRepository.deleteById(id);
     }
 }
