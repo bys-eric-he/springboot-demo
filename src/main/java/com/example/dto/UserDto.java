@@ -1,7 +1,11 @@
 package com.example.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class UserDto implements Serializable {
@@ -20,6 +24,13 @@ public class UserDto implements Serializable {
     private List<EmailAddressDto> emailAddressDtos;
 
     private List<ProductDto> productDtos;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createDateTime;
+
+    private LocalDateTime lastUpdateDateTime;
+
+    private Date currentDateTime;
 
     public Long getId() {
         return id;
@@ -75,5 +86,29 @@ public class UserDto implements Serializable {
 
     public void setProductDtos(List<ProductDto> productDtos) {
         this.productDtos = productDtos;
+    }
+
+    public LocalDateTime getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public void setCreateDateTime(LocalDateTime createDateTime) {
+        this.createDateTime = createDateTime;
+    }
+
+    public LocalDateTime getLastUpdateDateTime() {
+        return lastUpdateDateTime;
+    }
+
+    public void setLastUpdateDateTime(LocalDateTime lastUpdateDateTime) {
+        this.lastUpdateDateTime = lastUpdateDateTime;
+    }
+
+    public Date getCurrentDateTime() {
+        return currentDateTime;
+    }
+
+    public void setCurrentDateTime(Date currentDateTime) {
+        this.currentDateTime = currentDateTime;
     }
 }

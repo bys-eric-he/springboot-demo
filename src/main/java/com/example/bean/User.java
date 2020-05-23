@@ -1,5 +1,6 @@
 package com.example.bean;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +14,8 @@ public class User {
     private List<MobilePhone> mobilePhoneList;
     private Set<MobilePhone> mobilePhoneSet;
     private Map<Integer, MobilePhone> mobilePhoneMap;
+    private LocalDateTime createDateTime;
+    private LocalDateTime lastUpdateDateTime;
 
     //默认构造方法
     public User() {
@@ -88,6 +91,22 @@ public class User {
 
     public void setMobilePhoneMap(Map<Integer, MobilePhone> mobilePhoneMap) {
         this.mobilePhoneMap = mobilePhoneMap;
+    }
+
+    public LocalDateTime getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public void setCreateDateTime(LocalDateTime createDateTime) {
+        this.createDateTime = createDateTime;
+    }
+
+    public LocalDateTime getLastUpdateDateTime() {
+        return lastUpdateDateTime;
+    }
+
+    public void setLastUpdateDateTime(LocalDateTime lastUpdateDateTime) {
+        this.lastUpdateDateTime = lastUpdateDateTime;
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.example.response.ResponseResult;
 import com.example.service.AddressService;
 import com.example.service.ProductService;
 import com.example.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ import java.util.Set;
 @Api(description = "用户操作")
 @ResponseResult
 public class UserApi {
+
     Logger logger = LoggerFactory.getLogger(UserApi.class);
 
     @Autowired
@@ -39,12 +41,23 @@ public class UserApi {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     @ApiOperation(value = "获取所有用户")
     @Log
     public List<UserDto> findAll() {
         return userService.findAll();
+    }
+
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @ResponseBody
+    @ApiOperation(value = "获取所有用户JSON格式")
+    @Log
+    public String users() throws Exception {
+        return objectMapper.writeValueAsString(userService.findAll());
     }
 
     @RequestMapping(value = "/findBySpecAndPaginate", method = RequestMethod.GET)
