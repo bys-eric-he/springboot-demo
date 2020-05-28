@@ -1,6 +1,7 @@
 package com.example.aop;
 
 import com.example.annotation.Permission;
+import com.example.authentication.AuthenticationToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -48,6 +49,7 @@ public class ControllerInterceptor {
         HttpServletRequest request = attributes.getRequest();
 
         // 记录下请求内容
+        logger.info("TOKEN :" + AuthenticationToken.getCurrentUser());
         logger.info("URL : " + request.getRequestURL().toString());
         logger.info("HTTP_METHOD : " + request.getMethod());
         logger.info("IP : " + request.getRemoteAddr());

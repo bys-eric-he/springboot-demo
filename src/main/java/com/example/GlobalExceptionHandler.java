@@ -80,7 +80,6 @@ public class GlobalExceptionHandler implements ResponseBodyAdvice<Object> {
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            //ResultCode resultCode = ResultCode.FAILED;
             return CommonResult.failed(exception.getMessage());
         }
 

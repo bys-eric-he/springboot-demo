@@ -91,7 +91,7 @@ public class SpringConfig extends WebMvcConfigurerAdapter {
     }
 
     /*使用annotation tag来取代<bean></bean>*/
-    @Bean()
+    @Bean
     public Filter AuthFilter() {
         return new AuthenticationFilter();
     }

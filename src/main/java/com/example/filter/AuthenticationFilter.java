@@ -1,6 +1,8 @@
 package com.example.filter;
 
+import com.alibaba.fastjson.JSON;
 import com.example.authentication.AuthenticationToken;
+import com.example.response.CommonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
@@ -29,7 +31,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         // 不过滤的uri
-        String[] notFilter = new String[]{"/login/","/v2/api-docs"};
+        String[] notFilter = new String[]{"/login/", "/doc.html", "/v2/api-docs"};
 
         // 请求的uri
         String uri = request.getRequestURI();
@@ -59,15 +61,10 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                     request.setCharacterEncoding("UTF-8");
                     response.setCharacterEncoding("UTF-8");
                     PrintWriter out = response.getWriter();
-                    String loginPage = "....";
-                    String builder = "<script type=\"text/javascript\">" +
-                            "alert('网页过期，请重新登录！');" +
-                            "window.top.location.href='" +
-                            loginPage +
-                            "';" +
-                            "</script>";
-                    out.print(builder);
+                    out.print(JSON.toJSONString(CommonResult.forbidden("用户身份不合法,请确认token是否正确!")));
                 } else {
+                    // AuthenticationToken对象需要实现AuthenticationProvider接口去处理身份验证
+                    // 否则会出现 No AuthenticationProvider found for com.example.authentication.AuthenticationToken 的异常
                     Authentication authentication = new AuthenticationToken(authorization);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                     // 如果session中存在登录者实体，则继续

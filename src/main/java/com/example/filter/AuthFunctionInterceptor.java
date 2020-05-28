@@ -66,11 +66,13 @@ public class AuthFunctionInterceptor implements HandlerInterceptor {
             }
         }
 
+        /*
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers",
                 "Origin, X-Requested-With, Content-Type, Accept,token");
+         */
 
         // 只有返回true才会继续向下执行，返回false取消当前请求
         return true;
